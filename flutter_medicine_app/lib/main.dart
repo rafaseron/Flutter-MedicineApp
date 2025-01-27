@@ -30,14 +30,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // int _counter = 0;
   String _dateTime = '';
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  // void _incrementCounter() {
+  //   setState(() {
+  //     _counter++;
+  //   });
+  // }
 
   String _getDateTime() {
     final now = DateTime.now().toString().toDBModelData();
@@ -62,11 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times: $_dateTime',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              'Now DateTime is: $_dateTime',
             ),
           ],
         ),
@@ -74,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _setDateTime,
         tooltip: 'Increment',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.calendar_today),
       ),
     );
   }
