@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_medicine_app/data/service/date.dart';
+import 'package:flutter_medicine_app/presentation/ui/medication_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -53,18 +54,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      //   title: Text(widget.title),
+      // ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Now DateTime is: $_dateTime',
-            ),
-          ],
+          children: [Expanded(child: MedicationScreen())],
         ),
       ),
       floatingActionButton: FloatingActionButton(
