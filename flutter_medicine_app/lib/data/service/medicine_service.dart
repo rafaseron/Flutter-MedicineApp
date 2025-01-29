@@ -4,6 +4,11 @@ import 'package:flutter_medicine_app/domain/model/medication.dart';
 import 'package:result_dart/result_dart.dart';
 
 class MedicineService {
+  static final MedicineService _instance = MedicineService._();
+  factory MedicineService() => _instance;
+
+  MedicineService._();
+
   final baseUrl = "https://pocketbase.seronsoftware.com";
 
   Future<Result<int>> addMedicineRegister(Medication body) async {
@@ -27,9 +32,46 @@ class MedicineService {
     final url = Uri.parse(baseUrl + endpoint);
     final header = {'Content-Type': 'application/json'};
 
-    final respose = await http.get(url, headers: header);
-    final decodedResponse = jsonDecode(respose.body);
-    return decodedResponse;
+    try {
+      final response = await http.get(url, headers: header);
+
+      if (response.statusCode == 200) {
+        final decodedResponse = jsonDecode(response.body);
+
+        // A API do PocketBase retorna os registros no campo 'items'
+        final List<dynamic> items = decodedResponse['items'];
+
+        return items.map((json) => Medication.fromJson(json)).toList();
+      }
+      return [];
+    } catch (e) {
+      print('Erro ao buscar medicamentos: $e');
+      return [];
+    }
+  }
+
+  Future<List<Medication>> getAllMedicineFinishedStatus() async {
+    const endpoint = "/api/collections/medicine/records";
+    final url =
+        Uri.parse(baseUrl + endpoint + "?filter=(finished_status=true)");
+    final header = {'Content-Type': 'application/json'};
+
+    try {
+      final response = await http.get(url, headers: header);
+
+      if (response.statusCode == 200) {
+        final decodedResponse = jsonDecode(response.body);
+
+        // A API do PocketBase retorna os registros no campo 'items'
+        final List<dynamic> items = decodedResponse['items'];
+
+        return items.map((json) => Medication.fromJson(json)).toList();
+      }
+      return [];
+    } catch (e) {
+      print('Erro ao buscar medicamentos: $e');
+      return [];
+    }
   }
 
   Future<Result<int>> deleteMedicine(String id) async {
@@ -61,3 +103,7 @@ class MedicineService {
     }
   }
 }
+
+// class MedicineServiceSingletonUsageExample {
+//   final response = MedicineService().getAllMedicine();
+// }
