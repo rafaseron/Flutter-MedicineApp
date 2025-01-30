@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_medicine_app/presentation/components/medication_card.dart';
-import 'package:flutter_medicine_app/presentation/viewmodel/medication_viewmodel.dart';
+import 'package:flutter_medicine_app/presentation/ui/medication_screen/medication_viewmodel.dart';
 
 class MedicationScreen extends StatefulWidget {
   @override
@@ -36,13 +36,20 @@ class _MedicationList extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return ListView.builder(
-          itemCount: medicationViewModel.medications.length,
-          itemBuilder: (context, index) {
-            return MedicationCard(
-              medication: medicationViewModel.medications[index],
-            );
-          },
+        return Column(
+          children: [
+            const SizedBox(height: 50), // Espaçamento antes da lista
+            Expanded(
+              child: ListView.builder(
+                itemCount: medicationViewModel.medications.length,
+                itemBuilder: (context, index) {
+                  return MedicationCard(
+                    medication: medicationViewModel.medications[index],
+                  );
+                },
+              ),
+            ),
+          ],
         );
       },
     );
