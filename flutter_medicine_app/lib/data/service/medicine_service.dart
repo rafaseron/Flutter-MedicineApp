@@ -15,21 +15,33 @@ class MedicineService {
     const endpoint = "/api/collections/medicine/records";
     final url = Uri.parse(baseUrl + endpoint);
     final header = {'Content-Type': 'application/json'};
-    final encodedBody = jsonEncode(body);
 
-    final response = await http.post(url, headers: header, body: encodedBody);
-    final statusCode = response.statusCode;
-    switch (statusCode) {
-      case 200:
-        return Success(statusCode);
-      default:
-        return Failure(Exception("Error"));
+    print('Enviando JSON: ${body.toJson()}'); // Log para debug
+
+    try {
+      final response = await http.post(
+        url,
+        headers: header,
+        body: jsonEncode(body.toJson()),
+      );
+
+      print('Resposta da API: ${response.statusCode} - ${response.body}');
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Success(response.statusCode);
+      } else {
+        return Failure(Exception('Erro HTTP ${response.statusCode}'));
+      }
+    } catch (e) {
+      print('Erro na requisição: $e');
+      return Failure(e as Exception);
     }
   }
 
   Future<List<Medication>> getAllMedicine() async {
     const endpoint = "/api/collections/medicine/records";
-    final url = Uri.parse(baseUrl + endpoint);
+    final url =
+        Uri.parse(baseUrl + endpoint + "?filter=(finished_status=false)");
     final header = {'Content-Type': 'application/json'};
 
     try {
