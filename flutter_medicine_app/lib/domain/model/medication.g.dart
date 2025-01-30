@@ -10,7 +10,7 @@ Medication _$MedicationFromJson(Map<String, dynamic> json) => Medication(
       id: json['id'] as String?,
       name: json['name'] as String,
       dosage: json['dosage'] as String,
-      date: json['date'] as String,
+      date: json['date'] as String?,
       finishedStatus: json['finished_status'] as bool?,
       annotation: json['annotation'] as String?,
       image: json['image'] as String?,

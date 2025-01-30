@@ -4,20 +4,22 @@ part 'medication.g.dart';
 
 @JsonSerializable()
 class Medication {
-  final String? id;
-  final String name;
-  final String dosage;
-  final String date;
+  String? id;
+  String name;
+  String dosage;
+  String? date; // Já deve estar no formato correto
+
   @JsonKey(name: 'finished_status')
-  final bool? finishedStatus;
-  final String? annotation;
-  final String? image;
+  bool? finishedStatus;
+
+  String? annotation;
+  String? image;
 
   Medication({
     this.id,
     required this.name,
     required this.dosage,
-    required this.date,
+    this.date,
     this.finishedStatus,
     this.annotation,
     this.image,
@@ -25,6 +27,7 @@ class Medication {
 
   factory Medication.fromJson(Map<String, dynamic> json) =>
       _$MedicationFromJson(json);
+
   Map<String, dynamic> toJson() => _$MedicationToJson(this);
 }
 
